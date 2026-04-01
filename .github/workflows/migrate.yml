@@ -1,0 +1,24 @@
+name: migrate
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Migrate with flyway
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/flyway/sql \
+            redgate/flyway:latest \
+            -url=jdbc:postgresql://yh-db:5432/mydb \
+            -user=${{ secrets.DB_USER }} \
+            -password=${{ secrets.DB_PASSWORD }} \
+            migrate
