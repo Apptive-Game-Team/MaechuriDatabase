@@ -27,4 +27,5 @@ jobs:
             -url=jdbc:postgresql://100.88.57.69:5432/maechuri \
             -user=${{ secrets.DB_USER }} \
             -password=${{ secrets.DB_PASSWORD }} \
+            -baselineOnMigrate=true \
             migrate
