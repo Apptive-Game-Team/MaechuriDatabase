@@ -1,0 +1,33 @@
+name: migrate
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Connect to Tailscale
+        uses: tailscale/tailscale-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_KEY }}
+          tags: tag:github-action
+
+      # 2. 연결 확인 (선택 사항)
+      - name: Check Tailscale Status
+        run: tailscale status
+
+      - name: Migrate with flyway
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/flyway/sql \
+            redgate/flyway:latest \
+            -url=jdbc:postgresql://yh-db:5432/mydb \
+            -user=${{ secrets.DB_USER }} \
+            -password=${{ secrets.DB_PASSWORD }} \
+            migrate
