@@ -24,7 +24,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/flyway/sql \
             redgate/flyway:latest \
-            -url=jdbc:postgresql://100.88.57.69:5432/mydb \
+            -url=jdbc:postgresql://100.88.57.69:5432/maechuri \
             -user=${{ secrets.DB_USER }} \
             -password=${{ secrets.DB_PASSWORD }} \
             migrate
