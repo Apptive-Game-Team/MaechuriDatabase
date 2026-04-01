@@ -12,15 +12,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Connect to Tailscale
-        uses: tailscale/tailscale-action@v2
+        uses: tailscale/github-action@v5
         with:
           authkey: ${{ secrets.TAILSCALE_KEY }}
           tags: tag:github-action
-
-      # 2. 연결 확인 (선택 사항)
-      - name: Check Tailscale Status
-        run: tailscale status
 
       - name: Migrate with flyway
         run: |
